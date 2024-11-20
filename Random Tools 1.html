@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Tools 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    .color-picker-container {
+      display: inline-block;
+      background: linear-gradient(145deg, #ffffff, #dcdcdc);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.7);
+    }
+
+    .color-picker-container h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3), -3px -3px 5px rgba(255, 255, 255, 0.5);
+    }
+
+    .canvas-container {
+      position: relative;
+      display: inline-block;
+      border: 5px solid #ffb6c1; /* Light pink border */
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      width: 300px;
+      height: 300px;
+      background-color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .canvas-wrapper {
+      margin-bottom: 30px;
+    }
+
+    /* Button Style */
+    .colorful-button {
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 25px;
+      background-image: linear-gradient(45deg, #ff7b7b, #ff99cc, #cc66ff, #6699ff, #66ff66);
+      background-size: 300% 300%;
+      color: #fff;
+      border: none;
+      outline: none;
+      transition: background-position 0.6s ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    .colorful-button:hover {
+      background-position: 100% 0;
+    }
+
+    .colorful-button:focus {
+      outline: none;
+    }
+
+    /* 3D Text Style */
+    .rotating-text {
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      text-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+      transform-origin: center;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    /* Style for editable text */
+    .rotating-text input {
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+      border: none;
+      background: transparent;
+      text-align: center;
+      width: 100%;
+      outline: none;
+    }
+
+    /* 3D Cube Style */
+    .cube-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      perspective: 1000px;
+      margin: 20px auto;
+    }
+
+    .cube {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      animation: rotateCube 5s infinite linear;
+    }
+
+    .cube-face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 2px solid #ccc;
+    }
+
+    .front { transform: translateZ(100px); background-color: #f44336; }
+    .back { transform: rotateY(180deg) translateZ(100px); background-color: #4CAF50; }
+    .left { transform: rotateY(-90deg) translateZ(100px); background-color: #2196F3; }
+    .right { transform: rotateY(90deg) translateZ(100px); background-color: #FFEB3B; }
+    .top { transform: rotateX(90deg) translateZ(100px); background-color: #9C27B0; }
+    .bottom { transform: rotateX(-90deg) translateZ(100px); background-color: #FF9800; }
+
+    @keyframes rotateCube {
+      0% { transform: rotateY(0); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    /* Style for the link at the bottom */
+    #randomToolsLink {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #ff7b7b;
+      border-radius: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #randomToolsLink:hover {
+      background-color: #ff99cc;
+      transform: translateX(-50%) scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="color-picker-container">
+    <h1>Random Tools 2</h1>
+
+    <!-- First Canvas for Rainbow effect -->
+    <div class="canvas-wrapper">
+      <div class="canvas-container" id="canvasContainer1">
+        <canvas id="rainbowCanvas" width="300" height="300"></canvas>
+      </div>
+    </div>
+
+    <!-- Second Canvas for Squares effect -->
+    <div class="canvas-wrapper">
+      <div class="canvas-container" id="canvasContainer2">
+        <canvas id="squareCanvas" width="300" height="300"></canvas>
+      </div>
+    </div>
+
+    <!-- New Canvas for Ball with Physics -->
+    <div class="canvas-wrapper">
+      <div class="canvas-container" id="canvasContainer3">
+        <canvas id="ballCanvas" width="300" height="300"></canvas>
+      </div>
+    </div>
+
+    <!-- Colorful Button with Text that Changes on Click -->
+    <div>
+      <button class="colorful-button" id="toggleButton">OwO</button>
+    </div>
+
+    <!-- Rotating 3D Text -->
+    <div>
+      <div id="rotatingText" class="rotating-text">Click to Edit</div>
+    </div>
+
+    <!-- 3D Cube -->
+    <div class="cube-container">
+      <div id="cube" class="cube">
+        <div class="cube-face front"></div>
+        <div class="cube-face back"></div>
+        <div class="cube-face left"></div>
+        <div class="cube-face right"></div>
+        <div class="cube-face top"></div>
+        <div class="cube-face bottom"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link at the bottom -->
+  <a id="randomToolsLink" href="file:///C:/Users/napom/Downloads/Random%20Tools%202.html" target="_blank">Random Tools 2</a>
+
+  <script>
+    // Rainbow Canvas Logic
+    const rainbowCanvas = document.getElementById('rainbowCanvas');
+    const ctxRainbow = rainbowCanvas.getContext('2d');
+
+    let rainbowEffect = [];
+
+    class Rainbow {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.alpha = 1;
+        this.size = Math.random() * 10 + 15;
+        this.colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
+        this.colorIndex = 0;
+        this.lifeSpan = 100;
+      }
+
+      update() {
+        this.alpha -= 0.02;
+        if (this.alpha <= 0) this.alpha = 0;
+        this.colorIndex = (this.colorIndex + 1) % this.colors.length;
+        this.size *= 0.98;
+      }
+
+      draw() {
+        ctxRainbow.beginPath();
+        ctxRainbow.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctxRainbow.fillStyle = this.colors[this.colorIndex];
+        ctxRainbow.globalAlpha = this.alpha;
+        ctxRainbow.fill();
+        ctxRainbow.globalAlpha = 1;
+      }
+    }
+
+    function createRainbow(x, y) {
+      rainbowEffect.push(new Rainbow(x, y));
+    }
+
+    function animateRainbows() {
+      ctxRainbow.clearRect(0, 0, rainbowCanvas.width, rainbowCanvas.height);
+      rainbowEffect.forEach(rainbow => {
+        rainbow.update();
+        rainbow.draw();
+      });
+      rainbowEffect = rainbowEffect.filter(rainbow => rainbow.alpha > 0);
+      requestAnimationFrame(animateRainbows);
+    }
+
+    rainbowCanvas.addEventListener('mousemove', (e) => {
+      const rect = rainbowCanvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      createRainbow(mouseX, mouseY);
+    });
+
+    animateRainbows();
+
+    // Square Canvas Logic
+    const squareCanvas = document.getElementById('squareCanvas');
+    const ctxSquare = squareCanvas.getContext('2d');
+
+    function createSquare(x, y) {
+      const size = Math.random() * 40 + 10;
+      const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      ctxSquare.fillStyle = color;
+      ctxSquare.fillRect(x - size / 2, y - size / 2, size, size);
+    }
+
+    document.getElementById('canvasContainer2').addEventListener('mousemove', function (e) {
+      const rect = squareCanvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      createSquare(mouseX, mouseY);
+    });
+
+    // Ball Canvas Logic
+    const ballCanvas = document.getElementById('ballCanvas');
+    const ctxBall = ballCanvas.getContext('2d');
+    const ball = {
+      x: 150,
+      y: 150,
+      radius: 20,
+      dx: 0,
+      dy: 0,
+      gravity: 0.1,
+      friction: 0.98,
+    };
+    let isDragging = false;
+
+    function drawBall() {
+      ctxBall.clearRect(0, 0, ballCanvas.width, ballCanvas.height);
+      ctxBall.beginPath();
+      ctxBall.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctxBall.fillStyle = '#3498db';
+      ctxBall.fill();
+      ctxBall.closePath();
+    }
+
+    function updateBall() {
+      if (!isDragging) {
+        ball.dy += ball.gravity;
+        ball.y += ball.dy;
+        ball.x += ball.dx;
+
+        // Ball collision with walls
+        if (ball.x + ball.radius > ballCanvas.width) {
+          ball.x = ballCanvas.width - ball.radius;
+          ball.dx = -ball.dx * 0.8; // Simulate friction
+        }
+        if (ball.x - ball.radius < 0) {
+          ball.x = ball.radius;
+          ball.dx = -ball.dx * 0.8;
+        }
+        if (ball.y + ball.radius > ballCanvas.height) {
+          ball.y = ballCanvas.height - ball.radius;
+          ball.dy = -ball.dy * 0.8;
+        }
+
+        ball.dx *= ball.friction;  // Simulate friction
+      }
+
+      drawBall();
+      requestAnimationFrame(updateBall);
+    }
+
+    ballCanvas.addEventListener('mousedown', (e) => {
+      const rect = ballCanvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // Check if mouse is inside the ball
+      const distance = Math.sqrt(Math.pow(mouseX - ball.x, 2) + Math.pow(mouseY - ball.y, 2));
+      if (distance < ball.radius) {
+        isDragging = true;
+        ball.dx = 0;
+        ball.dy = 0;
+      }
+    });
+
+    ballCanvas.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const rect = ballCanvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        // Update the ball position to the mouse position
+        ball.x = mouseX;
+        ball.y = mouseY;
+      }
+    });
+
+    ballCanvas.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    ballCanvas.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+
+    updateBall();
+
+    // Toggle Button Text (OwO / UwU)
+    const toggleButton = document.getElementById('toggleButton');
+    toggleButton.addEventListener('click', () => {
+      if (toggleButton.innerText === 'OwO') {
+        toggleButton.innerText = 'UwU';
+      } else {
+        toggleButton.innerText = 'OwO';
+      }
+    });
+
+    // 3D Rotating Text Logic
+    const rotatingText = document.getElementById('rotatingText');
+    let isEditing = false;
+    let inputElement;
+
+    rotatingText.addEventListener('click', () => {
+      if (!isEditing) {
+        isEditing = true;
+        const input = document.createElement('input');
+        input.value = rotatingText.innerText;
+        rotatingText.innerHTML = '';  // Clear the text
+        rotatingText.appendChild(input);
+        input.focus();
+
+        input.addEventListener('blur', () => {
+          rotatingText.innerHTML = input.value;
+          isEditing = false;
+        });
+
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            rotatingText.innerHTML = input.value;
+            isEditing = false;
+          }
+        });
+      }
+    });
+
+    // Mouse move event for rotating the text
+    document.addEventListener('mousemove', (e) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      const angleX = (e.clientY - centerY) / centerY * 50; // Increased rotation multiplier for stronger effect
+      const angleY = (e.clientX - centerX) / centerX * 50; // Increased rotation multiplier for stronger effect
+
+      rotatingText.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+    });
+
+    // 3D Cube logic (adding faces on click)
+    const cube = document.getElementById('cube');
+    cube.addEventListener('click', function() {
+      const randomFace = document.createElement('div');
+      randomFace.classList.add('cube-face');
+      randomFace.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      randomFace.style.transform = `rotateX(${Math.random() * 360}deg) rotateY(${Math.random() * 360}deg) translateZ(100px)`;
+      cube.appendChild(randomFace);
+    });
+  </script>
+</body>
+</html>
